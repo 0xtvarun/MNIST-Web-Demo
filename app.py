@@ -15,10 +15,9 @@ def index():
 @app.route('/api/mnist', methods=['POST'])
 def api():
     inpt = ((255 - np.array(request.json, dtype=np.uint8)) / 255.0).reshape(784, 1)
-    print type(inpt)
-    print inpt.shape
-    print(NN.feedforward(inpt))
-    return jsonify(results=[{},{}])
+    out = NN.feedforward(inpt)
+    print(out.argmax())
+    return jsonify(out.argmax())
 
 if __name__ == '__main__':
     app.run()
