@@ -4,7 +4,7 @@ from network import Network
 
 app = Flask(__name__)
 
-hyper_param = np.load('./data/model.npz')
+hyper_param = np.load('./data/model.npz', encoding='bytes')
 NN = Network(hyper_param['weights'], hyper_param['biases'])
 
 
@@ -17,7 +17,8 @@ def api():
     inpt = ((255 - np.array(request.json, dtype=np.uint8)) / 255.0).reshape(784, 1)
     out = NN.feedforward(inpt)
     print(out.argmax())
-    return jsonify(out.argmax())
+    
+    return jsonify({'payload': str(out.argmax())})
 
 if __name__ == '__main__':
     app.run()
